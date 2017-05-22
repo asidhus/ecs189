@@ -75,7 +75,7 @@ function getLabels() {
 
     var pgh = document.getElementById("textbox").value;
         // construct url for query
-    var url = "http://138.68.25.50:6650/query?img="+pgh;
+    var url = "http://138.68.25.50:6650/query?getall";
 
         // becomes method of request object oReq
     function reqListener () {

@@ -20,12 +20,10 @@ app.use(express.static('public')); // serve static files from public
 app.get('/query', function (request, response){
     console.log("query");
     query = request.url.split("?")[1]; // get query string
-    if (query) {
-	answer(query, response);
-    } else {
-	sendCode(400,response,'query not recognized');
+    if(query=="getall"){
+        sendall(query,response);
     }
-});
+    });
 
 // Case 3: upload images
 // Responds to any POST request
@@ -62,41 +60,37 @@ function sendCode(code,response,message) {
     
 // Stuff for dummy query answering
 // We'll replace this with a real database someday! 
-function answer(query, response) {
-var labels = {hula:
-"Dance, Performing Arts, Sports, Entertainment, Quinceañera, Event, Hula, Folk Dance",
-	      eagle: "Bird, Beak, Bird Of Prey, Eagle, Vertebrate, Bald Eagle, Fauna, Accipitriformes, Wing",
-	      redwoods: "Habitat, Vegetation, Natural Environment, Woodland, Tree, Forest, Green, Ecosystem, Rainforest, Old Growth Forest"};
+// function answer(query, response) {
+// var labels = {hula:
+// "Dance, Performing Arts, Sports, Entertainment, Quinceañera, Event, Hula, Folk Dance",
+// 	      eagle: "Bird, Beak, Bird Of Prey, Eagle, Vertebrate, Bald Eagle, Fauna, Accipitriformes, Wing",
+// 	      redwoods: "Habitat, Vegetation, Natural Environment, Woodland, Tree, Forest, Green, Ecosystem, Rainforest, Old Growth Forest"};
 
-    console.log("answering");
-    kvpair = query.split("=");
-    labelStr = labels[kvpair[1]];
-    if (labelStr) {
-	    response.status(200);
-	    response.type("text/json");
-	    response.send(labelStr);
-    } else {
-	    sendCode(400,response,"requested photo not found");
+//     console.log("answering");
+//     kvpair = query.split("=");
+//     labelStr = labels[kvpair[1]];
+//     if (labelStr) {
+// 	    response.status(200);
+// 	    response.type("text/json");
+// 	    response.send(labelStr);
+//     } else {
+// 	    sendCode(400,response,"requested photo not found");
+//     }
+// }
+
+function sendall(query, response){
+    function dataCall(err, rowdata){
+        console.log(rowdata);
+        response.status(200);
+        response.type("text/json");
+        response.send(rowdata);
     }
+
+     db.all('SELECT * FROM PhotoLabels', dataCall);
 }
 
 
-/* called when image is clicked */
-function getLabels(imgName) {
-        // construct url for query
-    var url = "http://138.68.25.50:6650/query?img="+imgName;
 
-        // becomes method of request object oReq
-    function reqListener () {
-        var pgh = document.getElementById("labels");
-        pgh.textContent = this.responseText;
-    }
-
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", reqListener);
-    oReq.open("GET", url);
-    oReq.send();
-}
 
 
 
