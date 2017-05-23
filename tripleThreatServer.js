@@ -59,8 +59,7 @@ function sendCode(code,response,message) {
 }
 
 // Stuff for dummy query answering
-<<<<<<< Updated upstream
-// We'll replace this with a real database someday! 
+// We'll replace this with a real database someday!
 // function answer(query, response) {
 // var labels = {hula:
 // "Dance, Performing Arts, Sports, Entertainment, Quinceañera, Event, Hula, Folk Dance",
@@ -85,41 +84,7 @@ function sendall(query, response){
         response.status(200);
         response.type("text/json");
         response.send(rowdata);
-=======
-// We'll replace this with a real database someday!
-function answer(query, response) {
-var labels = {hula:
-"Dance, Performing Arts, Sports, Entertainment, Quinceañera, Event, Hula, Folk Dance",
-	      eagle: "Bird, Beak, Bird Of Prey, Eagle, Vertebrate, Bald Eagle, Fauna, Accipitriformes, Wing",
-	      redwoods: "Habitat, Vegetation, Natural Environment, Woodland, Tree, Forest, Green, Ecosystem, Rainforest, Old Growth Forest"};
-
-    console.log("answering");
-    kvpair = query.split("=");
-    labelStr = labels[kvpair[1]];
-    if (labelStr) {
-	    response.status(200);
-	    response.type("text/json");
-	    response.send(labelStr);
-    } else {
-	    sendCode(400,response,"requested photo not found");
->>>>>>> Stashed changes
     }
 
      db.all('SELECT * FROM PhotoLabels', dataCall);
 }
-
-
-
-<<<<<<< Updated upstream
-
-
-
-
-
-=======
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load", reqListener);
-    oReq.open("GET", url);
-    oReq.send();
-}
->>>>>>> Stashed changes
