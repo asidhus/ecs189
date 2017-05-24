@@ -1,6 +1,6 @@
 //function readFile() {
 function uploadFile() {
-    var url = "http://138.68.25.50:12499";
+    var url = "./";
     var selectedFile = document.getElementById('fileSelector').files[0];
     var fr = new FileReader();
     var formData = new FormData();
@@ -21,7 +21,7 @@ function uploadFile() {
         oReq.open("POST", url, true);
 
         oReq.onload = function() {
-            photoItem.setAttribute('src', 'http://138.68.25.50:12499/' + selectedFile.name);
+            photoItem.src = './' + selectedFile.name;
             photoItem.style.opacity = 1.0;
 
         	// the response, in case we want to look at it
@@ -33,13 +33,18 @@ function uploadFile() {
 }
 
 /* called when image is clicked */
-function startUp() {
+function init() {
     // construct url for query
-    var url = "http://138.68.25.50:12499/query?getall";
+    var url = "query?getall";
+    var data;
 
     // becomes method of request object oReq
     function reqListener () {
-        this.responseText;
+        data = this.responseText;
+        data = JSON.parse(data);
+        for (var i in data) {
+            addImage(data[i].fileName);
+        }
     }
 
     var oReq = new XMLHttpRequest();
@@ -54,8 +59,9 @@ function addImage(imgSrc) {
     var photoDiv = document.createElement("div");
     photoDiv.className = "photoDiv";
     var photoImg = document.createElement("img");
+    photoImg.setAttribute("id", imgSrc);
     photoImg.className = "photoImg";
-    photoImg.src = imgSrc;
+    photoImg.src = "./" + imgSrc;
     photoDiv.appendChild(photoImg);
     photoItem.appendChild(photoDiv);
 
@@ -72,8 +78,4 @@ function addImage(imgSrc) {
 
 function clearFilter() {
     document.getElementById("filterInput").value = "";
-}
-
-function startUp() {
-
 }
