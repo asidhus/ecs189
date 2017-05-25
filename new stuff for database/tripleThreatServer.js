@@ -46,9 +46,12 @@ app.get('/query', function (request, response){
         LabelDelete(tag,response,name);
     }
     if(check == "Labelfind"){
-        console.log("dsadasdads");
         var tag = query.split("=")[1];
         findTag(tag,response);
+    }
+    if(check == "GetLabels"){
+        console.log("dsadasdads");
+        GetLabels(query.split("=")[1],response);
     }
 
     });
@@ -285,6 +288,7 @@ function findTag(tag,response){
         console.log(filenames);
         response.status(200);
         response.type("text/json");
+        response.send(filenames);
        
     }
 
@@ -300,6 +304,29 @@ function findTag(tag,response){
 
 }
 
+function GetLabels(name,response){
+    function dataCall(err, rowdata){
+        rowdata = JSON.stringify(rowdata);
+        rowdata = JSON.parse(rowdata);
+        console.log(rowdata[0].labels);
+        response.status(200);
+        response.type("text/json");
+        response.send(rowdata[0].labels);
 
+    }
+
+
+
+
+
+    var n = name.search("%20");
+    while(n!=-1){
+        name = name.replace("%20"," ");
+        n = name.search("%20");
+    }
+    name = name.trim();
+    db.all('SELECT labels FROM PhotoLabels WHERE fileName = "'+ name + '"',dataCall);
+
+}
 
 
