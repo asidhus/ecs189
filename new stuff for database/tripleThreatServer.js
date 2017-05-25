@@ -53,6 +53,10 @@ app.get('/query', function (request, response){
         console.log("dsadasdads");
         GetLabels(query.split("=")[1],response);
     }
+    if(check == "favoriteFind"){
+        console.log("fsgfgs");
+        favoritefind(query.split("=")[1],response);
+    }
 
     });
 
@@ -327,6 +331,29 @@ function GetLabels(name,response){
     name = name.trim();
     db.all('SELECT labels FROM PhotoLabels WHERE fileName = "'+ name + '"',dataCall);
 
+}
+
+
+
+function favoritefind(name,response){
+    function dataCall(err, rowdata){
+        console.log(rowdata);
+        response.status(200);
+        response.type("text/json");
+        rowdata = JSON.stringify(rowdata);
+        rowdata = JSON.parse(rowdata);
+        response.send(rowdata[0]);
+    }
+
+
+    var n = name.search("%20");
+    while(n!=-1){
+        name = name.replace("%20"," ");
+        n = name.search("%20");
+    }
+    name = name.trim();
+    console.log(name);
+    db.all('SELECT * FROM PhotoLabels WHERE fileName = "'+ name + '"',dataCall);
 }
 
 
