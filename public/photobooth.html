@@ -9,7 +9,7 @@
     </head>
     <body onload="init()">
         <header>
-            <span id="headline">Photobooth.</span>
+            <a id="headline" href="./photobooth.html">Photobooth.</a>
             <hr>
         </header>
         <main>
@@ -31,31 +31,19 @@
                     </summary>
                     <div class="menuDetail">
                         <input type="text" id="filterInput">
-                        <button class="button" onclick="">enter</button>
+                        <button class="button" onclick="filterTag()">enter</button>
                         <button class="button" onclick="clearFilter()">clear filter</button>
                     </div>
                 </details>
                 <details class="menuSection">
                     <summary class="menuTitle">
-                        <span class="menuText">&#x2605;&nbsp;&nbsp;favorites</span>
+                        <span class="menuText">
+                            <a id="favoritesLink" href="javascript:showFavorites()">&#x2605;&nbsp;&nbsp;favorites</a></span>
                     </summary>
-                    <div class="menuDetail">
-                        TEXT HERE
-                    </div>
-                </details>
-                <details class="menuSection">
-                    <summary class="menuTitle">
-                        <button class="button" onclick="getImage()">enter</button>
-                        <button class="button" onclick="getImage2()">enter</button>
-                        <button class="button" onclick="abc()">getAll</button>
-                    </summary>
-                    <div class="menuDetail">
-                        TEXT HERE
-                    </div>
                 </details>
             </div>
         </main>
-
+<p id="labels"></p>
         <script src="photobooth.js"></script>
     </body>
 </html>

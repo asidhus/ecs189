@@ -20,6 +20,29 @@ body {
     flex-direction: column;
 }
 
+a#headline {
+    color: #7A503E;
+    font-size: 40px;
+    font-weight: bold;
+    margin-left: 28px;
+}
+
+a#headline:visited {
+    color: #7A503E;
+}
+
+a {
+    text-decoration: none;
+}
+
+a#favoritesLink {
+    color: white;
+}
+
+a#favoritesLink:visited {
+    color: white;
+}
+
 span#headline {
      font-size: 40px;
      font-weight: bold;
@@ -51,7 +74,8 @@ div#photoArea {
     overflow: scroll;
 }
 
-.photoItems {
+.photoItem {
+    padding: 1px;
     margin: 4px;
     width: 180px;
     display: flex;
@@ -60,6 +84,7 @@ div#photoArea {
 
 .photoDiv {
     width: 100%;
+    position: relative;
 }
 
 .photoImg {
@@ -67,13 +92,42 @@ div#photoArea {
     max-height: 100%;
 }
 
-.lableDiv {
+.menuDiv {
+    position: absolute;
+    right: 0;
+}
+
+.menuRow {
+    border: 1px solid #402C21;
+}
+
+.thirdRow {
+    border: 1px solid #402C21;
+    text-align: right;
+}
+
+.menuButton {
+    font-family: 'GoudyStd';
+    background-color: #885541;
+    border: 0;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.menuImg {
+    height: 38px;
+    width: 38px;
+}
+
+.tagDiv {
     padding: 4px;
     border: 1px solid #402C21;
     font-family: 'GoudyStd';
 }
 
 .photoLable {
+    color: black;
 }
 
 div#menuArea {
@@ -130,6 +184,15 @@ input[type="file"] {
 .button:hover {
     background-color: white;
     color: #7A503E;
+}
+
+.tagButton {
+    font-family: 'GoudyStd';
+    background-color: transparent;
+    border: 0;
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 details summary::-webkit-details-marker { display: none; }
