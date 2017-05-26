@@ -281,10 +281,7 @@ function removeTag(tagButton) {
     var url = "query?LabelDelete!" + imgSrc + " = " + tag;
 
     // becomes method of request object oReq
-    function reqListener () {
-        var pg = document.getElementById("labels");
-        pg.textContent = this.responseText;
-    }
+    function reqListener () {}
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", reqListener);
     oReq.open("GET", url);
@@ -302,10 +299,7 @@ function addTag(addTagButtonId) {
     var url = "query?LabelADD!" + imgSrc + " = " + tag;
 
     // becomes method of request object oReq
-    function reqListener () {
-        var pg = document.getElementById("labels");
-        pg.textContent = this.responseText;
-    }
+    function reqListener () {}
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", reqListener);
     oReq.open("GET", url);
