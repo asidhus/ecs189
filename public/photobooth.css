@@ -195,4 +195,42 @@ input[type="file"] {
     font-weight: bold;
 }
 
+.mobileIcon {
+    height: 40px;
+}
+
+.image-upload {
+    width: 40px;
+}
+
+.image-upload > input {
+    display: none;
+}
+
+div#mobileMenu {
+    display: none;
+}
+
 details summary::-webkit-details-marker { display: none; }
+
+@media (max-width: 740px) {
+    main {
+     	display: block;
+    }
+    div#photoArea {
+        margin: 0;
+        display: block;
+    }
+    div#menuArea {
+        display: none;
+    }
+    .photoItem {
+        width: 50%;
+        margin: 0 auto;
+    }
+    div#mobileMenu {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+}
