@@ -6,6 +6,10 @@ var express = require('express');
 var formidable = require('formidable');  // we upload images in forms
 // this is good for parsing forms and reading in the images
 
+var LIVE = true;
+var request = require('request');
+var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+
 // make a new express server object
 var app = express();
 
@@ -56,6 +60,10 @@ app.get('/query', function (request, response){
     if(check == "favoriteFind"){
         console.log("fsgfgs");
         favoritefind(query.split("=")[1],response);
+    }
+    if(check == "google"){
+        console.log("google function called");
+        google(query.split("=")[1],response);
     }
 
     });
@@ -355,5 +363,159 @@ function favoritefind(name,response){
     console.log(name);
     db.all('SELECT * FROM PhotoLabels WHERE fileName = "'+ name + '"',dataCall);
 }
+
+
+
+
+
+function google(name,response){
+    var n = name.search("%20");
+    while(n!=-1){
+        name = name.replace("%20"," ");
+        n = name.search("%20");
+    }
+    name = name.trim();
+    console.log("this is the name inside the google function" + name);
+
+    requestObject = {
+      "requests": [
+      {
+       "image": {
+        "source": {"imageUri": "http://138.68.25.50:6650/"+name}
+    },
+    "features": [{ "type": "LABEL_DETECTION" }]
+    }
+    ]
+    }
+
+    url = 'https://vision.googleapis.com/v1/images:annotate?key=AIzaSyACqsyW_HpLNIVnYXUQRRNKWfTptmLMFb8';
+    annotateImage();
+
+  
+
+
+
+
+
+
+
+function annotateImage() {
+    if (LIVE) {
+    // The code that makes a request to the API
+    // Uses the Node request module, which packs up and sends off
+    // an XMLHttpRequest. 
+    request(
+        { // HTTP header stuff
+        url: url,
+        method: "POST",
+        headers: {"content-type": "application/json"},
+        // stringifies object and puts into HTTP request body as JSON 
+        json: requestObject,
+        },
+        // callback function for API request
+        APIcallback
+    );
+    } else {  // not live! return fake response
+    // call fake callback in 2 seconds
+    console.log("not live");
+    setTimeout(fakeAPIcallback, 2000);
+    }
+}
+
+    
+// live callback function
+function APIcallback(err, APIresponse, body) {
+    if ((err) || (APIresponse.statusCode != 200)) {
+    console.log("Got API error"); 
+    } else {
+    APIresponseJSON = body.responses[0];
+    var info = APIresponseJSON;
+
+
+
+
+
+db.all('SELECT labels FROM PhotoLabels WHERE fileName = "'+ name + '"',dataCall);
+
+    function dataCall(err, rowdata){
+        rowdata = JSON.stringify(rowdata);
+        rowdata = JSON.parse(rowdata);
+        console.log(rowdata[0].labels);
+        var string = "";
+        for (i in info.labelAnnotations){
+            if(i==0){
+                string = string + info.labelAnnotations[i].description;
+            }
+            else{
+                string = string + "," + info.labelAnnotations[i].description;
+            }
+        }
+
+
+
+
+
+        if (rowdata[0].labels == "" ){
+           
+            db.run('UPDATE PhotoLabels SET labels = "'+string+'" WHERE fileName = "'+ name + '"');
+            console.log(string);
+        }
+        else{
+            
+            string = rowdata[0].labels + "," + string;
+            console.log(string);
+            db.run('UPDATE PhotoLabels SET labels = "'+string+'" WHERE fileName = "'+ name + '"');
+        }
+     
+    }
+
+    response.send(APIresponseJSON);
+    console.log(info);
+    }
+}
+
+// fake callback function
+function fakeAPIcallback() {
+    console.log("fake");
+    
+    console.log( ` { labelAnnotations:    [ { mid: '/m/026bk', description: 'fakeLabel1', score: 0.89219457 },
+     { mid: '/m/05qjc',
+       description: 'fakeLabel2',
+       score: 0.87477195 },
+     { mid: '/m/06ntj', description: 'fakeLabel3', score: 0.7928342 },
+     { mid: '/m/02jjt',
+       description: 'fakeLabel4',
+       score: 0.7739482 },
+     { mid: '/m/02_5v2',
+       description: 'fakeLabel5',
+       score: 0.70231736 } ] }` );
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//AIzaSyACqsyW_HpLNIVnYXUQRRNKWfTptmLMFb8
+
+
+
+
+
+
+
+
+
+
+
+
 
 

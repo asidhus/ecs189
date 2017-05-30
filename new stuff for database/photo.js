@@ -79,7 +79,11 @@ function getLabels() {
     //var url = "http://138.68.25.50:6650/query?LabelDelete!image%20(2).png = funshun";
     //var url = "http://138.68.25.50:6650/query?favorite=all";
     //var url = "http://138.68.25.50:6650/query?favorite=image%20(2).png";
-    var url = "http://138.68.25.50:6650/query?Labelfind=dope";
+    //var url = "http://138.68.25.50:6650/query?Labelfind=dope";
+    //var url = "http://138.68.25.50:6650/query?GetLabels=image%20(2).png";
+    //var url = "http://138.68.25.50:6650/query?favoriteFind=image%20(2).png";
+    var url = "http://138.68.25.50:6650/query?google=IMG_3944.JPG";
+
 
 
         // becomes method of request object oReq
